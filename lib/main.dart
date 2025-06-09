@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:pp1/login_screen.dart';
-
-import 'splash_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'login/data/repos/auth_repository.dart';
+import 'login/logic/auth_cubit.dart';
+import 'login/ui/login_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final AuthRepository repository = AuthRepository();
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: const SplashScreen(),
+      home: BlocProvider(
+        create: (_) => AuthCubit(repository: repository),
+        child: const LoginScreen(),
+      ),
     );
   }
 }

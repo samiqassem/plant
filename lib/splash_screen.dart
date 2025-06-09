@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:pp1/social%20login_screen.dart';
-import 'login_screen.dart'; // استيراد شاشة تسجيل الدخول
+import 'login/ui/login_screen.dart'; // استيراد شاشة تسجيل الدخول
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
