@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../core/storage/token_storage.dart';
 import '../../home_page.dart';
 import '../data/model/login_request.dart';
 import '../logic/auth_cubit.dart';
@@ -37,22 +38,23 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<AuthCubit, AuthState>(
-      listener: (context, state) {
+      listener: (context, state) async {
         if (state is AuthLoading) {
           setState(() => isLoading = true);
         } else {
           setState(() => isLoading = false);
         }
 
+
         if (state is AuthSuccess) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text("Welcome ${state.response.user.username}")),
           );
-
+           await TokenStorage.saveToken(state.response.token);
           // ✅ الانتقال إلى الصفحة الرئيسية بعد تسجيل الدخول
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (_) =>  HomePage(response: state.response)),
+            MaterialPageRoute(builder: (_) =>  HomePage()),
           );
         } else if (state is AuthFailure) {
           ScaffoldMessenger.of(context).showSnackBar(

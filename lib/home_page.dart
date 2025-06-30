@@ -4,13 +4,12 @@ import 'login/data/model/login_response.dart';
  // تأكد من المسار الصحيح
 
 class HomePage extends StatelessWidget {
-  final LoginResponse response;
 
-  const HomePage({super.key, required this.response});
+  const HomePage({super.key, });
 
   @override
   Widget build(BuildContext context) {
-    final user = response.user;
+   // final user = response.user;
 
     return Scaffold(
       appBar: AppBar(
@@ -51,10 +50,10 @@ class HomePage extends StatelessWidget {
                       children: [
                         const Icon(Icons.person, color: Colors.green),
                         const SizedBox(width: 10),
-                        Text(
-                          "Username: ${user.username}",
-                          style: const TextStyle(fontSize: 16),
-                        ),
+                        // Text(
+                        //   "Username: ${user.username}",
+                        //   style: const TextStyle(fontSize: 16),
+                        // ),
                       ],
                     ),
                     const SizedBox(height: 10),
@@ -62,10 +61,10 @@ class HomePage extends StatelessWidget {
                       children: [
                         const Icon(Icons.email, color: Colors.green),
                         const SizedBox(width: 10),
-                        Text(
-                          "Email: ${user.email}",
-                          style: const TextStyle(fontSize: 16),
-                        ),
+                        // Text(
+                        //   "Email: ${user.email}",
+                        //   style: const TextStyle(fontSize: 16),
+                        // ),
                       ],
                     ),
                   ],
