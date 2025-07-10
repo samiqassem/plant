@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/storage/token_storage.dart';
+import '../../forgot_password/ui/forgot_password_screen..dart';
 import '../../home_page.dart';
 import '../data/model/login_request.dart';
 import '../logic/auth_cubit.dart';
@@ -45,16 +46,14 @@ class _LoginScreenState extends State<LoginScreen> {
           setState(() => isLoading = false);
         }
 
-
         if (state is AuthSuccess) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text("Welcome ${state.response.user.username}")),
           );
-           await TokenStorage.saveToken(state.response.token);
-          // ✅ الانتقال إلى الصفحة الرئيسية بعد تسجيل الدخول
+          await TokenStorage.saveToken(state.response.token);
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (_) =>  HomePage()),
+            MaterialPageRoute(builder: (_) => const HomePage()),
           );
         } else if (state is AuthFailure) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -155,7 +154,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 10),
                 TextButton(
                   onPressed: () {
-                    // يمكنك هنا إضافة التنقل لشاشة "نسيت كلمة المرور؟"
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                          builder: (_) => const ForgotPasswordScreen()),
+                    );
                   },
                   child: const Align(
                     alignment: Alignment.centerRight,

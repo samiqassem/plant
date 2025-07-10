@@ -26,10 +26,7 @@ class AuthRepository {
       );
 
       final loginResponse = LoginResponse.fromJson(response.data);
-
-      // 🧠 حفظ التوكن بعد نجاح تسجيل الدخول
       await _saveToken(loginResponse.token);
-
       return loginResponse;
     } on DioException catch (e) {
       throw Exception(
@@ -52,18 +49,38 @@ class AuthRepository {
         ),
       );
 
-      print('✅ SignUp success: ${response.statusCode}');
       return SignUpResponse.fromStatusCode(response.statusCode ?? 201);
     } on DioException catch (e) {
-      print('⛔ SignUp error: ${e.response?.statusCode}');
-      print('⛔ Body: ${e.response?.data}');
       throw Exception(
         e.response?.data['message'] ?? 'Sign up failed with unknown error',
       );
     }
   }
 
-  // 🔒 حفظ التوكن في SharedPreferences
+  // 🔴 نسيت كلمة المرور (forgot password)
+  Future<String> forgotPassword(String email) async {
+    try {
+      final response = await dio.post(
+        'https://44b24513-7b35-4cdf-ad0b-4d43fb90ec33-00-1h47iv5jolz8d.spock.replit.dev/api/auth/forgot-password',
+        data: {'email': email},
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          },
+        ),
+      );
+
+      final message = response.data['message']?.toString() ?? 'Check your email';
+      return message;
+    } on DioException catch (e) {
+      throw Exception(
+        e.response?.data['message'] ?? 'Forgot password failed',
+      );
+    }
+  }
+
+  // 🔒 حفظ التوكن
   Future<void> _saveToken(String token) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('auth_token', token);
